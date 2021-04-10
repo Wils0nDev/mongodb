@@ -1,0 +1,20 @@
+-- Primero 
+    - Corremos mongod (C:\Program Files\MongoDB\Server\4.2\bin)
+    -- Corremos mongo (C:\Program Files\MongoDB\Server\4.2\bin)
+COMANDOS
+-- Ver BDs
+    -  show bds
+
+-- Crear y Usar una BD 
+    -- user nombre_bd (estamos usando esta bd pero hasta que no insertemos datos, esta bd aun no esta creada)
+
+-- Insert :
+    db.nombre_coleccion.insertOne(
+        {
+            nombre : "wilson"
+            apellidoP : "Vasquez"
+        }
+    )
+
+
+NOTA : Despues de haber insertado usamos show bds y ya podremos ver nuestra BD

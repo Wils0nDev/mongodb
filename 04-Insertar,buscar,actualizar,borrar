@@ -1,0 +1,42 @@
+INSERTAR : 
+db.insertMany.(
+{
+        "_id" : ObjectId("606bf174538ec13d1d6726d4"),
+        "nombre" : "wilson",
+        "apellidos" : "vasquez coronado",
+        "correo" : "coronadoew18@gmail.com",
+        "password" : "wilson1890"
+}
+{
+        "_id" : ObjectId("606bf27b538ec13d1d6726d5"),
+        "nombre" : "rosita",
+        "apellidos" : "celis solano",
+        "correo" : "rosita1592@gmail.com",
+        "password" : "rosita1890",
+        "movil" : "912186132"
+}
+)
+
+LEER : db.user.find().pretty() , pretty() -> es una funcion para obtener ordenado el documento
+
+Eliminar
+
+db.user.deleteOne({nombre : "wilson"  } )
+ - Esto me borrar solo el primer documento con el campo nombre : wilson
+ - Perso seria mejor usar el id ya que es unico ({ _id : "123" })
+
+
+db.user.deleteMany({nombre : "wilson"  } ) : me borra todos los docuentos con el nombre : wilson
+
+ACTULIZAR : en el caso de update hacemos uso de operadores
+
+- $set : para poder actulizar el registro
+
+db.user.updateOne({nombre : "wilson"  } { $set { marcador : "borrar"  }} )
+
+    - aqui le decimos que a nuestro registro con nombre wilson le agregue un nuevo campo "marcador"
+
+
+
+
+    

@@ -1,0 +1,30 @@
+MONGODB : 
+
+Mongodb es una base de datos no relacional (NoSql), orientada a documentos
+
+¿ Qué es NoSql ?:
+
+NoSql = Not Only SQL
+
+No necesitan un estructura fisica, por eso dan mas flexibilidad
+
+MONGODB   ----    SQL
+BD        ----     BD
+Colecciones --   Tablas
+Documentos  -- Filas (registros)
+Campos     ---   Columnas
+
+EJEMPLO  NoSql
+
+BD : TIENDA
+Colecciones : Usuarios , Pedidos
+Documentos :   { Nombre : 'Juan', edad : 25} ,  {...}
+                {Nombre : 'Felipe' } , {...}
+
+VENTAJAS : 
+
+Más rapido ya que almacena todo en un mismo sitio (una coleccion)
+
+No hace falta unir tablas como en SQL
+
+Mas flexibilidad para las aplicaciones y crear relaciones complejas

@@ -1,0 +1,23 @@
+find : es una funcion que usa para buscar
+
+db.nombre_coleccion.find(filter, option )
+
+ejemplo : usuarios mayores de 25
+
+OPERADORS : usamos operadores para hacer esto
+
+$gt : mayor que 
+
+db.user.find({ edad : { $gt:25 } })
+
+{
+        "_id" : ObjectId("607135f3367f37d73ff14b9f"),
+        "nombre" : "wilson",
+        "apellidos" : "wwcc",
+        "edad" : 27
+}
+
+diferencia entra find y findOne : 
+imaginemos que hay dos registros con edad > 25 
+el findOne devolvera solo 1 : siempre el primero, a no ser que se le coloque otra opcion, pero 
+en este no te permite usar .pretty()

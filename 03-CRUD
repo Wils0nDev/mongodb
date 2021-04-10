@@ -1,0 +1,27 @@
+C : CREATE 
+R  : READ 
+U  : UPDATE
+D  : DELETE
+
+CREATE : CREAR
+
+insertOne (data, options) : Inserta una coleccion
+
+insertMany (data, options) : Inserta una o varias colecciones
+
+READ : leer
+
+find(data, options) : buscar o encontrar todos y se le puede añadir un filtro
+findOne(data, options) : buscar o encontrar uno y se le puede añadir un filtro
+
+UPDATE : ACTULIZAR
+
+updateOne (filter, data, options) : actiliza uno
+updateMany (filter, data, options) : actiliza muchos
+
+replaceOne(filter, data, options) : remplaza
+
+DELETE : Eliminar
+
+deleteOne (filter, options) : borra uno
+deleteMany (filter, options) : borra muchos
