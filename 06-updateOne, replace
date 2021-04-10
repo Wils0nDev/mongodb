@@ -1,0 +1,16 @@
+updateOne : es para actulizar campos de un solo documento
+
+replaceOne : remploza todos los campos de un solo documento
+
+EJEMPLO 
+
+db.user.updateOne({_id : "606bf27b538ec13d1d6726d5" } , {$set :  { edad : 30 }})
+
+-Esto solo me actulizara la edad de la primera coleccion con el campo _id : 606bf27b538ec13d1d6726d5 
+
+Pero que pasa si hago
+
+db.user.replaceOne({nombre : "wilson" } , {$set :  { edad : 30 }})
+
+- Esto me remplazara todos los campos del documento con id : 606bf27b538ec13d1d6726d5 
+

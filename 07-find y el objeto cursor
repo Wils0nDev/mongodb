@@ -1,0 +1,21 @@
+find() : te devuelve los datos buscados pero , que pasa si tenemos mas de un millon de datos 
+en esa coleccion. Por defecto find siempre te devolver los primero 20 datos 
+
+PORQUE ? 
+porque find ejecuta un objeto cursor que es el que hace esta accion
+
+PERO SI QUIERO MAS DE 20 REGISTROS ?? 
+
+pdemos forzar a find()
+
+db.nombre_coleccion.find().toArray()
+
+con toArray() : esto nos devolvera un array de objetos
+
+OTRA FORMA ? 
+
+forEach()
+
+db.nombres.find().forEach( (nombres) => { printjson(nombres) } )
+
+- forEach recorre la coleccion nombres, y con printjson convierte a json cada objeto leido
