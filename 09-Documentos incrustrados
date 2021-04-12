@@ -1,0 +1,15 @@
+- Esto significa que podemos tener un documento que dentro puede tener 2 documentos mas 
+y a si hasta llegar al nivel 100 (es dificil llegar a este nivel ), como maximo se llegan a 3 niveles
+
+Y COMO HAGO ESTO ? 
+
+con un update podemos actulizar el documento para poder incrustar otro documento
+pore ejemplo en la coleccion nombres. 
+
+NIVEL 1
+db.nombres.ubdateMany({}, {$set :{ estado : { descripcion : "activo", actulizado : "hace 1 hora" }}})
+
+Esto incrustrara un documento estado dentro del documento nombres
+
+NIVEL 2
+db.nombres.ubdateMany({}, {$set :{ estado : { descripcion : "activo", actulizado : "hace 1 hora", detalle : { detalle:"fichado por Juan" } }}})

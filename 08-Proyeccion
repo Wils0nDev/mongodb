@@ -1,0 +1,15 @@
+Proyeccion: 
+
+que pasa si queremos obtener solo los nombres de los usuarios o ciertos campos 
+Es necesario traerme todos ? , pues no para usamos la PROYECCION.
+
+COMO LO USAMOS : pues igual con find pero con una estrucctura especial
+nota :
+1 -> incluye
+0 -> excluye, solo si queremos excluir el _id
+{}-> es necesario siempre
+db.user.find({}, { nombre:1 } ) -> esto me traera solo los nombres y el id (este siempre viene por defecto)
+
+- si queremos excluir el id entonces : _id : 0 , ejemplo
+
+db.user.find({}, { nombre:1, _id:0 } ) 

@@ -1,0 +1,93 @@
+UNO -> UNO
+
+--INCRUSTRADO 
+paciente1 - > historial medico 1 
+
+paciente2 - > historial medico 2 
+
+paciente3 - > historial medico 3
+
+use hospital
+
+
+
+{
+        "_id" : ObjectId("6074ae162310e0e6126affbf"),
+        "nombre" : "Juan",
+        "edad" : 25,
+        "historial" : {
+                "enfermedades" : [
+                        "brazo roto",
+                        "gripe"
+                ]
+        }
+}
+
+si lo hacemos asi entonces para obtener las enfermedades de su historial del paciente seria 
+
+db.pacientes.findOne({nombre : "Juan"}).historial.enfermedades
+--> [ "brazo roto", "gripe" ]
+
+-- REFERENCIAL POR ID
+
+
+db.pacientes.insertOne(
+    nombre : "Juan",
+    edad : 25,
+    historial "historial1"
+)
+
+db.historial.insertOne(
+    {
+        _id : "historial1",
+        enfermedades : [
+            "brazo roto",
+            "gripe"
+        ]
+    }
+)
+
+si lo hacemos asi entonces para obtener las enfermedades de su historial del paciente seria 
+
+var his = db.pacientes.findOne({nombre : "Juan"}).historial
+
+y despues 
+db.historial.findOne({_id : his}).enfermedades
+
+--> [ "brazo roto", "gripe" ]
+
+
+DE UNO A MUCHOS
+
+IMAGINEMOS QUE TENEMOS UNA APP DE PREGUNTAS  Y RESPUESTAS
+
+REFERENCIA
+
+use pregunta_respuesta
+
+db.preresp.insertOne({ 
+    nombre : "juan", 
+    edad : 25 ,
+    pregunta : "¿ Comó funciona esto ?",
+    respuesta : [
+        "p1r1",
+        "p1r2",
+    ]
+})
+
+db.respuestas.insertOne([
+    { _id: "p1r1", respuesta : "Esto funciona asi" },
+    { _id: "p1r2", respuesta : "respuesta de prueba" }
+])
+
+INCRUSTRADO
+
+db.preresp.insertOne({ 
+    nombre : "juan", 
+    edad : 25 ,
+    pregunta : "¿ Comó funciona esto ?",
+    respuesta : [
+        {texto : "Esto funciona asi" } ,
+        {texto : "respuesta de prueba" } ,
+    ]
+})

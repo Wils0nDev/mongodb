@@ -18,3 +18,17 @@ COMANDOS
 
 
 NOTA : Despues de haber insertado usamos show bds y ya podremos ver nuestra BD
+
+MOSTRAR COLECCIONES : 
+
+show collections
+Para borrar una BD.
+
+Primero.
+- use nombre_db
+
+Segundo
+- db.dropDatabase()
+
+
+

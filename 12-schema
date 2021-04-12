@@ -1,0 +1,15 @@
+-- Como podemos ver, el schema de una coleccion puede ser 
+-- diferente a otra, y esto no causara un error.
+
+-Pero es correcto esto ? , No
+
+use tienda 
+
+db.productos.insertOne({
+    nombre : "Libro"
+    precio : 9.99
+})
+
+db.productos.insertOne(
+    {titulo : "Pelicula", vendedor : {nombre:"Juan", edad : 25}}
+)

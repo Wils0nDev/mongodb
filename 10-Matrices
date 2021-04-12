@@ -1,0 +1,3 @@
+Al igual que los documentos incrustrados también podemos incrustrar matrices ([])
+
+db.nombres.ubdateMany({nombre : "Riky martin"}, {$set :{ aficiones:['cantar', 'bailar'] }})

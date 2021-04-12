@@ -1,0 +1,21 @@
+por ejemplo del documento nombres cuyo coleccion con nombre : Ricky Martin 
+quiero obtener sus aficiones que es una matriz
+
+COMO LO HACEMOS ? 
+
+db.nombres.findOne({nombre : "Ricky Martin" }).aficiones
+
+resultado : ["cantar", "bailar" ]
+
+-- y si queremos tener cada uno y no en un array
+entonces 
+
+db.user.find({nombre : "Ricky Martin" }).afficiones.forEach( (aficiones) => { printjson(aficiones) } )
+
+resultado : 
+"cantar"
+"bailar"
+
+pero que pasa si queremos obtener su estado, si este es un documento. Entonces ? 
+
+db.nombres.findOne( { "estado.descripcion":"activo" } )
