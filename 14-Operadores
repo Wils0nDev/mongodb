@@ -1,0 +1,300 @@
+InsertOrder
+
+- creamos un registro
+
+db.aficiones.inserMany ([
+    {_id : "gimnasio", nombre : "Gimnasio" },
+    {_id : "futbol", nombre : "Futbol" },
+    {_id : "escalar", nombre : "Escalar" }
+
+])
+--- INSERT OK
+
+AHORA INSERTAMOS DE NUEVO
+db.aficiones.inserMany ([
+    {_id : "correr", nombre : "Correr" },
+    {_id : "futbol", nombre : "Futbol" },
+    {_id : "saltar", nombre : "Saltar" }
+
+])
+
+- Esto causar un error por id duplicado, pero que pasa
+- Esto, insertara el primer registro - ok , y en el segundo saldra el error deteniendo la ejecucion
+- Y generando q el tercer registro no se insert
+¿Porque sucede esto ? , porque el insert tiene un segundo parametro que es el "ordered"
+el ORDERED por defecto es true lo que genera que cause esto
+
+si colocamos esto 
+db.aficiones.inserMany ([
+    {_id : "correr", nombre : "Correr" },
+    {_id : "futbol", nombre : "Futbol" },
+    {_id : "saltar", nombre : "Saltar" }
+
+], {ordered : false})
+
+que pasara, el prceso sera el siguiente
+
+- 1 registro - OK
+- 2 registro - error - pero sigue
+- 3 registro - OK 
+-- ENTONCES INSERTARA LOS DOS REGISTRO SIN IMPORTAR EL ERROR DEL SEGUNDO
+
+
+READ : OPERADORES
+
+-- COMPARCION
+
+$eq : igualdad
+db.empleados.findOne({"Salario anual" : {$eq: 49000 } })
+
+$ne : no es igual
+
+$gt : mayor que 
+$gte : mayor que o igual
+
+$lt : menor que 
+$lte : menor que o igual
+
+$in : "DENTRO DE". compara el dato si esta dentro de esa list y coje todos los que tenga 48000 y 49000
+db.empleados.find({"Salario anual" : {$in: [48000, 49000] } })
+
+$nin : "NO DENTRO DE". compara el dato y coje todos los que no tengan ni 48000 ni 49000
+db.empleados.find({"Salario anual" : {$nin: [48000, 49000] } })
+
+
+-- LOGICA
+
+$or : es el tipico OR
+
+db.empleados.findOne({ $or : [ {"Salario anual" : 48000} , {"Oficina" : 4 } ] } )
+
+
+$and : es el tipico AND
+db.empleados.findOne({ $and : [ {"Salario anual" : 48500} , {"Oficina" : 4 } ] } )
+
+$nor : es la negacion de or , devuelve algo que no es ni uno ni el otro
+
+$not : es igual que $ne
+- te arrojara los documentos el cual el salario anual no es igual 48500
+db.empleados.findOne({"Salario anual" : {$not : {$eq: 48500 }} })
+
+-- ELEMENTO 
+
+$exists : te busca si existe el campo en el documento
+$type : seleccionas el documento si especificas el tipo del campo
+
+exists: me devuelve todos los empleados que no tienen el campo "salario anual"
+db.empleados.find({"Salario anual": {$exists:false} }).pretty()
+
+type: me devuelve todos los empleados que  tienen el campo "salario anual" como string
+db.empleados.find({"Salario anual": {$type:string} }).pretty()
+
+otro ejemplo :
+type: me devuelve todos los empleados que  tienen el campo "salario anual" como number y es mayor que 44000
+db.empleados.find({"Salario anual": {$type:nubmber, $gt : 44000 } }).pretty()
+
+
+EXPRESIONES REGULARE 
+
+tenemos varios jefes (de producto, marketing, etc), pero queremos extraer solo donde la categoría es JEFE
+
+$regex : SIRVE PARA ESTO, Busca segun una expresion regular.
+
+db.empleados.find({"Categoría": {$regex : /Jefe/ } }).pretty()
+
+
+$expr : nos crea un expresion para poder comparar campos
+ejemplo : 
+
+db.ventas.insertMany([
+    { venta : 50, objetivo : 70},
+    { venta : 99, objetivo : 90},
+    { venta : 300, objetivo : 150}
+])
+
+- QUEREMOS OBTENER LAS VENTAS QUE PASARON EL OBJETIVO
+
+
+db.ventas.find({$expr : { $gt : ["$venta","$objetivo"] }}).pretty()
+
+-la expresion que se crea aqui dice : obtenme todos las ventas , donde la venta "es mayor que" el objetivo
+
+EXPRESIONES CON CONDICIONES
+
+- Quiero obtener las ventas (que siendo mayor que 100 se le resta 20 y si no , no le hago resto nada). Que sean mayor al objetivo
+
+db.ventas.find({
+  "$expr": {
+    "$gt": [
+      {
+        "$cond": {
+          "if": {
+            "$lt": [
+              "$venta",
+              100
+            ]
+          },
+          "then": {
+            "$subtract": [
+              "$venta",
+              20
+            ]
+          },
+          "else": "$venta"
+        }
+      },
+        "$objetivo"
+    ]
+  }
+})
+
+MATRICES : 
+$size : para decirle que me traiga todos los documentos que en su matriz tengo N numero de elementos
+ejemplo
+
+db.usuario.insertOne({
+    nombre  : "wilson",
+    aficiones : [
+        "programar",
+        "estudiar",
+        "video juegos"
+    ]
+})
+
+db.usuario.insertOne({
+    nombre  : "rosita",
+    aficiones : [
+        "ir de compras",
+        "salir a pasear"
+    ]
+})
+
+db.usuario.find({aficiones :{  $size:2 } })
+resultado  :
+
+{
+    nombre  : "rosita",
+    aficiones : [
+        "ir de compras",
+        "salir a pasear"
+    ]
+}
+
+$all : se le pasa parametros y segun esos parametros que existen obtiene los documentos 
+ejemplo 
+
+db.usuario.find({aficiones :{  $all: ["programar", "estudiar", ] } })
+resultdo : estos dos parametros existen dentro de aficiones.
+{
+    nombre  : "wilson",
+    aficiones : [
+        "programar",
+        "estudiar",
+        "video juegos"
+    ]
+}
+
+$elemMatch : busca dentro de un elemento especifico , las dos condiciones a la vez
+
+ejemplo 
+
+db.usuario.insertMany(
+  [
+    {
+      nombre : "wilson",
+      notas : [
+        {
+          año : 1,
+          mate : 80,
+          ingles : 85
+        },
+        {
+          año : 2,
+          mate : 86,
+          ingles : 79
+        }
+      ]
+    },
+    {
+      nombre : "rosita",
+      notas : [
+        {
+          año : 1,
+          mate : 90,
+          ingles : 95
+        },
+        {
+          año : 2,
+          mate : 83,
+          ingles : 82
+        }
+      ]
+    }
+  ]
+)
+
+--obtener los casos donde la nota de mate es > 85 y ingles > 80
+db.usuario.find({
+  $and : [
+      { 
+        "notas.mate" : 
+          {
+            $gt:85
+          }
+      } ,
+      {
+        "notas.ingles":
+          {
+            $gt:80
+          }
+      }
+    ]
+})
+
+-- ESTO ME ARROJA LOS 2 USUARIOS PORQUE ? 
+-- PORQUE? 
+
+porque si nos damos cuenta en el usuario "wilson" al menos en uno de los documentos de notas 
+existe un mate mayor a 85 y en otro documento existe el ingles mayor a 80.
+
+Pero lo que nosotros queremos es que exista esta condicion en un mismo elemento. NO POR SEPARADO.
+$elemMatch, hace esta busqueda. Busca en cada elemento de notas que existe le condicion
+
+db.usuario.find({
+  notas : {
+  $elemMatch : 
+      { 
+        mate : 
+          {
+            $gt:85
+          },
+
+        ingles:
+          {
+            $gt:80
+          }
+    
+    
+   }
+  }
+}).pretty()
+
+resultado
+
+{
+      nombre : "rosita",
+      notas : [
+        {
+          año : 1,
+          mate : 90,
+          ingles : 95
+        },
+        {
+          año : 2,
+          mate : 83,
+          ingles : 82
+        }
+      ]
+    }
+
+PORQUE? : porque si nos damos cuenta la condicion se cumple en un mismo elemento de notas
