@@ -1,0 +1,7 @@
+Para iterar con el cursor
+
+const objetoCursor = db.empleados.find()
+
+objetoCursor.next() : nos itera uno por uno los empleados 
+
+objetoCursor.hasNext() : true si hay mas documentos, false si ya no 

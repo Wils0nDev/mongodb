@@ -13,3 +13,19 @@ db.user.find({}, { nombre:1 } ) -> esto me traera solo los nombres y el id (este
 - si queremos excluir el id entonces : _id : 0 , ejemplo
 
 db.user.find({}, { nombre:1, _id:0 } ) 
+
+-- Proyeccion en matrices :
+
+db.usuarios.find({aficiones : "correr"},{"aficiones.$:1"}).pretty()
+
+aqui nos regresara la matris con el valor que hemos seleccionado "correr"
+
+ejemplo :
+
+{
+    _id : 13231qee33wr,
+    "aficiones:[
+        "correr"
+    ]
+}
+

@@ -1,0 +1,17 @@
+sort() : nos ordena segun el campo 
+
+1:descendente
+-1 : ascendente
+
+db.empleado.find().sort({"EmpID" : 1}).pretty()
+
+skip : se salta la cantidad de registros que le asignes 
+
+db.empleado.find().sort({"EmpID" : 1}).skip(10).pretty()
+aqui se saltara 10 registros
+
+limit : nos limita la cantidad de registros
+
+db.empleado.find().sort({"EmpID" : 1}).skip(10).limit(2).pretty()
+
+- aqui ordeneara por empide despues se saltara cada 10 registros y por ultimo solo me devolvera 2 registros
