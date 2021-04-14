@@ -298,3 +298,96 @@ resultado
     }
 
 PORQUE? : porque si nos damos cuenta la condicion se cumple en un mismo elemento de notas
+
+
+$slice : nos obtiene una cantidad de valores segun el campo donde lo usamos y el numero que le pasamos
+
+db.usuario.find(
+  {
+  nombre : "wilson",
+  },
+  {
+    aficiones : {$slice:1}
+  }
+  
+  )
+
+
+respuesta
+{
+    nombre  : "wilson",
+    aficiones : [
+        "programar",
+    ]
+}
+
+
+SI ME SALTO 1 Y LUEGO ESCOGO 2
+
+db.usuario.find(
+  {
+  nombre : "wilson",
+  },
+  {
+    aficiones : {$slice:[1,2]}
+  }
+  
+  )
+
+  respuesta
+{
+    nombre  : "wilson",
+    aficiones : [
+        "estudiar",
+        "video juegos"
+    ]
+}
+
+AUMENTAR Y DECREMENTAR
+
+$inc : para aumentar o decrementar 
+
+ejemplo 
+aumenta edad
+db.usuario.updateOne({nombre :"wilson"},{$inc : {edad : 1 }}) 
+
+disminuye edad 
+db.usuario.updateOne({nombre :"wilson"},{$inc : {edad : -1 }})
+
+
+$min : cambia el valor si es menor que el valor actual
+20 < 30
+db.usuario.updateOne({nombre :"wilson"},{$min : {edad : 20 }}) 
+
+$max : cambia el valor si es mayor que el valor actual 
+
+40 > 20
+db.usuario.updateOne({nombre :"wilson"},{$min : {edad : 40 }}) 
+
+$mul : multiplica el valor 
+db.usuario.updateOne({nombre :"wilson"},{$mull : {edad : 1.1 }}) 
+
+ELIMINAR CAMPOS 
+
+$unset : es el opuesto a set, "elimina campos"
+
+db.usuario.updateOne({nombre :"wilson"},{$unset : {edad : "" }}) 
+
+RENOMBRAR CAMPOS 
+
+$rename : renombre el nombre de un campo 
+- cambia el nombre edad por Edad
+db.usuario.updateOne({nombre :"wilson"},{$rename : {edad : "Edad" }}) 
+
+-INSERT + UPDATE 
+
+$upsert
+
+db.usuario.updateOne({nombre :"edgar"},{$set : {edad : 25 }}) 
+-- pero esta no modificara nada por que edgar no existe 
+
+con upsert podemos ejecutar esto
+
+db.usuario.updateOne({nombre :"edgar"},{$set : {edad : 25 }}. {upsert : true}) 
+
+-- DELETE  

@@ -1,0 +1,100 @@
+$match : funciona como un find , pero a diferencia es que se le puede seguir agregando
+mas OPERADORES
+
+
+db.personas.aggregate([
+    {$match : {gender : "female" }}
+])
+
+
+$group : para agrupar, siempre tiene q ir el id
+$sum : 1 -> hace una suma , en este caso de personas
+
+db.personas.aggregate([
+    {$match : {gender : "female" }},
+    { $group : {_id : { ciudad : "$location.city" }, personas : {$sum : 1}}}
+])
+
+$sort : ordenamos
+
+db.personas.aggregate([
+    {$match : {gender : "female" }},
+    { $group : {_id : { ciudad : "$location.city" }, personas : {$sum : 1}}},
+    { $sort : {personas : -1 }}
+])
+
+$project : podemos armar nuevos documentos segun los campos que queremos.
+proyectamos esos campos y podemos crear nuevos a pratir de otros
+
+$concat : concatenamos campos 
+
+db.personas.aggregate([
+    {
+        $project : 
+        {
+            _id:0 , 
+            gender:1 , 
+            NombleCompleto: 
+            { 
+                $concat: 
+                [
+                    "$name.first"," ", "$name.last"
+                ]
+            } 
+        }
+    },
+    
+])
+
+-- $toUpper : cambio a mayuscula
+-- 
+db.personas.aggregate([
+    {
+        $project : 
+        {
+            _id:0 , 
+            gender:1 , 
+            NombleCompleto: 
+            { 
+                $concat: 
+                [
+                    { $toUpper : "$name.first" },
+                    " ", 
+                    { $toUpper : "$name.last" }
+                ]
+            } 
+        }
+    },
+    
+])
+
+-- convertir la primera letra en mayuscula
+db.personas.aggregate([
+    {
+        $project : 
+        {
+            _id:0 , 
+            gender:1 , 
+            NombleCompleto: 
+            { 
+                $concat: 
+                [
+                    { $toUpper : {$substrCP:["$name.first",0,1] } },
+                    {$substrCP:[
+                        "$name.first",
+                        1,
+                        {$subtract: [{ $strLenCP: "$name.first"}, 1]}
+                        ]},
+                    " ", 
+                    { $toUpper : {$substrCP:["$name.last",0,1] } },
+                    {$substrCP:[
+                        "$name.last",
+                        1,
+                        {$subtract: [{ $strLenCP: "$name.last"}, 1]}
+                        ]},
+                ]
+            } 
+        }
+    },
+    
+])
